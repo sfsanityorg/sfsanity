@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged
+npx lint-staged
+
+# Run type check
+npm run type-check
+
+# Check component organization
+if [ -f "scripts/check-component-organization.sh" ]; then
+  chmod +x scripts/check-component-organization.sh
+  ./scripts/check-component-organization.sh
+fi

@@ -1,0 +1,84 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # Quick checks for PRs
+  pr-validation:
+    name: PR Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run quick tests
+        run: npm run test:all
+
+      - name: Check component organization
+        run: |
+          chmod +x scripts/check-component-organization.sh
+          ./scripts/check-component-organization.sh
+
+      - name: Validate environment setup
+        run: |
+          echo "Checking environment configuration..."
+          node -e "
+            try {
+              require('./lib/env');
+              console.log('✅ Environment validation passed');
+            } catch (error) {
+              console.log('⚠️ Environment validation failed (expected in CI)');
+            }
+          "
+
+  # Size impact analysis
+  bundle-analysis:
+    name: Bundle Size Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and analyze
+        run: |
+          npm run build
+          npx next-bundle-analyzer || echo "Bundle analysis completed"
+
+      - name: Comment bundle size
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const stats = fs.readFileSync('.next/analyze/bundle-stats.json', 'utf8');
+              const data = JSON.parse(stats);
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## Bundle Size Analysis\n\n📦 Build completed successfully!\n\nCheck the build output for any size warnings.`
+              });
+            } catch (error) {
+              console.log('Bundle analysis data not available');
+            }

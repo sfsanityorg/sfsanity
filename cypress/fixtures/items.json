@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Test Item 1",
+    "description": "This is a test item",
+    "status": "active",
+    "created_at": "2023-01-01T00:00:00.000Z",
+    "updated_at": "2023-01-01T00:00:00.000Z",
+    "created_by": null,
+    "updated_by": null
+  },
+  {
+    "id": 2,
+    "name": "Test Item 2",
+    "description": "Another test item",
+    "status": "inactive",
+    "created_at": "2023-01-02T00:00:00.000Z",
+    "updated_at": "2023-01-02T00:00:00.000Z",
+    "created_by": null,
+    "updated_by": null
+  },
+  {
+    "id": 3,
+    "name": "Test Item 3",
+    "description": null,
+    "status": "pending",
+    "created_at": "2023-01-03T00:00:00.000Z",
+    "updated_at": null,
+    "created_by": null,
+    "updated_by": null
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "name": "ts-node-pnpm-git",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20",
+      "installTools": true
+    },
+    "ghcr.io/devcontainers/features/pnpm:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts": [3000, 54321, 5432],
+  "postCreateCommand": "./scripts/post-create.sh",
+  "remoteUser": "node"
+}
