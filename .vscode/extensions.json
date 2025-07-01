@@ -2,8 +2,10 @@
     "recommendations": [
         "dbaeumer.vscode-eslint",
         "bradlc.vscode-tailwindcss",
+        "christian-kohler.npm-intellisense",
         "esbenp.prettier-vscode",
-        "GitHub.copilot",
+        "github.copilot",
+        "ms-azuretools.vscode-containers",
         "ms-azuretools.vscode-docker",
       ]
 }
