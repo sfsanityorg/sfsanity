@@ -7,6 +7,6 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "forwardPorts": [3000, 54321, 5432],
-  "postCreateCommand": "./scripts/post-create.sh",
+  "postCreateCommand": "chmod +x ./scripts/post-create.sh && ./scripts/post-create.sh",
   "remoteUser": "node"
 }
