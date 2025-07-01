@@ -1,0 +1,4 @@
+{
+  "entryPoints": ["./src/**/*.ts", "./app/**/*.ts", "./**/*.tsx"],
+  "out": "./docs/typedoc"
+}
