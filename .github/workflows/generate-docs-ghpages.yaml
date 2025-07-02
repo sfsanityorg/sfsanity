@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  docs:
+  generate-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
