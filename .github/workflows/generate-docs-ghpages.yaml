@@ -17,13 +17,13 @@ jobs:
           node-version: 20.x
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Build project
-        run: pnpm run build
+        run: npm run build
 
       - name: Generate documentation
-        run: pnpm exec typedoc --options typedoc.json
+        run: npx typedoc --options typedoc.json
         continue-on-error: true
 
       - name: Deploy to GitHub Pages
