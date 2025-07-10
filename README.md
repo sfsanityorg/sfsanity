@@ -2,6 +2,8 @@
 
 Event aggregator and filter for San Francisco. Discover and manage tech events, conferences, and meetups.
 
+[![CodeFactor](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity/badge)](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity)
+
 ## Features
 
 - **Events**: Show lu.ma events
