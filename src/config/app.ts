@@ -78,7 +78,7 @@ export const APP_CONFIG = {
   
   /** External Links */
   GITHUB_URL: 'https://github.com/sfsanityorg/sfsanity/issues' as const,
-  GITHUB_TOOLTIP: 'Add feature requests and issues on Github' as const,
+  GITHUB_TOOLTIP: 'Raise issues and feature requests on Github' as const,
   
   /** Insights Settings */
   /** Default expanded state for Insights section */

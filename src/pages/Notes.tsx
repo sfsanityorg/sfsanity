@@ -59,25 +59,25 @@ export const Notes: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 pt-32 pb-12">
-      <div className="flex gap-[30px]">
+    <div className="container mx-auto px-2 sm:px-4 pt-20 sm:pt-32 pb-12">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-[30px]">
         {/* Notes Sidebar */}
-        <div className={`w-80 shrink-0 bg-background-secondary rounded-2xl border border-graphite-300/30 backdrop-blur-md transition-all duration-300 ease-in-out ${showSidebar ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full w-0'}`}>
+        <div className={`w-full lg:w-80 shrink-0 bg-background-secondary rounded-2xl border border-graphite-300/30 backdrop-blur-md transition-all duration-300 ease-in-out ${showSidebar ? 'opacity-100 translate-x-0' : 'hidden lg:opacity-0 lg:-translate-x-full lg:w-0'}`}>
           <div className="h-full flex flex-col">
-            <div className="p-7 border-b border-graphite-300/30">
+            <div className="p-4 sm:p-7 border-b border-graphite-300/30">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium">Notes</h2>
+                <h2 className="text-base sm:text-lg font-medium">Notes</h2>
                 <button className="text-text-tertiary hover:text-text-primary">
-                  <Plus size={18} />
+                  <Plus size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
               </div>
               
               <div className="relative">
-                <Search size={16} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-text-tertiary" />
+                <Search size={14} className="sm:w-4 sm:h-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-text-tertiary" />
                 <input 
                   type="text" 
                   placeholder="Search notes..."
-                  className="w-full bg-graphite-400/40 border border-graphite-300/30 rounded-md py-2 pl-8 pr-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent"
+                  className="w-full bg-graphite-400/40 border border-graphite-300/30 rounded-md py-2 pl-7 sm:pl-8 pr-3 text-xs sm:text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
             </div>
@@ -86,19 +86,19 @@ export const Notes: React.FC = () => {
               {sampleNotes.map(note => (
                 <div 
                   key={note.id} 
-                  className="p-7 border-b border-graphite-300/20 cursor-pointer hover:bg-graphite-400/30 transition-colors last:border-b-0"
+                  className="p-4 sm:p-7 border-b border-graphite-300/20 cursor-pointer hover:bg-graphite-400/30 transition-colors last:border-b-0"
                 >
-                  <h3 className="text-base font-medium mb-1 truncate">{note.title}</h3>
-                  <p className="text-text-tertiary text-sm mb-2 line-clamp-2">{note.preview}</p>
+                  <h3 className="text-sm sm:text-base font-medium mb-1 truncate">{note.title}</h3>
+                  <p className="text-text-tertiary text-xs sm:text-sm mb-2 line-clamp-2">{note.preview}</p>
                   <div className="flex justify-between items-center">
                     <div className="flex space-x-1">
                       {note.tags.map((tag, index) => (
-                        <span key={index} className="text-xs px-2 py-0.5 rounded-full bg-graphite-300/40 text-text-tertiary">
+                        <span key={index} className="text-xs px-1.5 sm:px-2 py-0.5 rounded-full bg-graphite-300/40 text-text-tertiary">
                           {tag}
                         </span>
                       ))}
                     </div>
-                    <span className="text-xs text-text-subtle">{note.lastEdited}</span>
+                    <span className="text-xs text-text-subtle hidden sm:inline">{note.lastEdited}</span>
                   </div>
                 </div>
               ))}
@@ -112,9 +112,9 @@ export const Notes: React.FC = () => {
             <div className="flex items-center justify-between p-4 border-b border-graphite-300/30">
               <button 
                 onClick={toggleSidebar}
-                className="p-2 rounded-md text-text-tertiary hover:text-text-primary hover:bg-graphite-400/30"
+                className="p-2 rounded-md text-text-tertiary hover:text-text-primary hover:bg-graphite-400/30 lg:hidden"
               >
-                <File size={18} />
+                <File size={16} className="sm:w-[18px] sm:h-[18px]" />
               </button>
               
               <div className="flex-1 mx-4">
@@ -122,37 +122,37 @@ export const Notes: React.FC = () => {
                   type="text"
                   value={title}
                   onChange={handleTitleChange}
-                  className="w-full bg-transparent border-none text-xl font-medium focus:outline-none focus:ring-0 px-0"
+                  className="w-full bg-transparent border-none text-lg sm:text-xl font-medium focus:outline-none focus:ring-0 px-0"
                 />
               </div>
               
-              <div className="flex items-center space-x-2">
-                <button className="cmd-btn">
-                  <Tag size={16} />
+              <div className="flex items-center space-x-1 sm:space-x-2">
+                <button className="cmd-btn hidden sm:flex">
+                  <Tag size={14} className="sm:w-4 sm:h-4" />
                 </button>
-                <button className="cmd-btn">
-                  <Calendar size={16} />
+                <button className="cmd-btn hidden sm:flex">
+                  <Calendar size={14} className="sm:w-4 sm:h-4" />
                 </button>
                 <button 
                   onClick={handleSave}
-                  className={`btn ${isSaved ? 'btn-secondary' : 'btn-primary'} flex items-center`}
+                  className={`btn ${isSaved ? 'btn-secondary' : 'btn-primary'} flex items-center text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2`}
                 >
-                  <Save size={16} className="mr-1" />
+                  <Save size={14} className="sm:w-4 sm:h-4 mr-1" />
                   {isSaved ? 'Saved' : 'Save'}
                 </button>
-                <button className="cmd-btn">
-                  <MoreHorizontal size={18} />
+                <button className="cmd-btn hidden sm:flex">
+                  <MoreHorizontal size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
               </div>
             </div>
             
-            <div className="flex-1 p-8 overflow-auto inertia-scroll">
+            <div className="flex-1 p-4 sm:p-8 overflow-auto inertia-scroll">
               <textarea
                 value={content}
                 onChange={handleContentChange}
                 placeholder="Start writing..."
-                className="w-full h-full bg-transparent border-none text-lg leading-relaxed focus:outline-none focus:ring-0 resize-none"
-                style={{ minHeight: 'calc(100vh - 180px)' }}
+                className="w-full h-full bg-transparent border-none text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 resize-none"
+                style={{ minHeight: 'calc(100vh - 200px)' }}
               ></textarea>
             </div>
           </div>

@@ -125,23 +125,23 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
       </div>
 
       {viewMode === 'tiles' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {results.map((event) => (
             <div
               key={event.id}
-              className="card hover:translate-y-[-4px] group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent"
+              className="card hover:translate-y-[-2px] sm:hover:translate-y-[-4px] group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6"
             >
-              <div className="flex justify-between items-start mb-4">
+              <div className="flex justify-between items-start mb-3 sm:mb-4">
                 <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
                   {event.location}
                 </span>
-                <span className="text-xs text-text-tertiary whitespace-nowrap">
+                <span className="text-xs text-text-tertiary whitespace-nowrap ml-2">
                   {formatDate(event.date)} • {formatTime(event.time_pst)}
                 </span>
               </div>
               
               <h3 
-                className="text-xl font-medium mb-2 group-hover:text-accent transition-colors"
+                className="text-lg sm:text-xl font-medium mb-2 group-hover:text-accent transition-colors line-clamp-2"
               >
                 <span dangerouslySetInnerHTML={{ 
                   __html: getHighlightedText(query, event.event_title) 
@@ -166,13 +166,13 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                     href={event.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center text-accent text-sm hover:underline group-hover:translate-x-1 transition-transform"
+                    className="flex items-center text-accent text-xs sm:text-sm hover:underline group-hover:translate-x-1 transition-transform"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span className="mr-1" dangerouslySetInnerHTML={{ 
                       __html: getHighlightedText(query, getDisplayDomain(event.link)) 
                     }} />
-                    <ExternalLink size={14} />
+                    <ExternalLink size={12} className="sm:w-[14px] sm:h-[14px]" />
                   </a>
                 )}
               </div>
@@ -184,19 +184,19 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
           {results.map((event) => (
             <div
               key={event.id}
-              className="card hover:translate-x-1 group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent"
+              className="card hover:translate-x-1 group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
                       <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
                         <span dangerouslySetInnerHTML={{ 
                           __html: getHighlightedText(query, event.location) 
                         }} />
                       </span>
                       <h3 
-                        className="text-lg font-medium group-hover:text-accent transition-colors"
+                        className="text-base sm:text-lg font-medium group-hover:text-accent transition-colors"
                       >
                         <span dangerouslySetInnerHTML={{ 
                           __html: getHighlightedText(query, event.event_title) 
@@ -204,7 +204,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                       </h3>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <span className="text-xs text-text-tertiary whitespace-nowrap">
+                      <span className="text-xs text-text-tertiary whitespace-nowrap self-start sm:self-center">
                         <span dangerouslySetInnerHTML={{ 
                           __html: getHighlightedText(query, formatDate(event.date)) 
                         }} /> • <span dangerouslySetInnerHTML={{ 
@@ -220,13 +220,13 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                         href={event.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-accent text-sm hover:underline group-hover:translate-x-1 transition-transform"
+                        className="inline-flex items-center text-accent text-xs sm:text-sm hover:underline group-hover:translate-x-1 transition-transform"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <span className="mr-1" dangerouslySetInnerHTML={{ 
                           __html: getHighlightedText(query, getDisplayDomain(event.link)) 
                         }} />
-                        <ExternalLink size={14} />
+                        <ExternalLink size={12} className="sm:w-[14px] sm:h-[14px]" />
                       </a>
                     )}
                   </div>

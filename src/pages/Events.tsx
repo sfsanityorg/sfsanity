@@ -155,14 +155,14 @@ export const Events: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 pt-32 pb-12">
-      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-8 mb-16">
+    <div className="container mx-auto px-2 sm:px-4 pt-20 sm:pt-32 pb-12">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 sm:gap-8 mb-12 sm:mb-16">
         <div className="space-y-3">
-          <h1 className="text-title mb-3 tracking-tight">Events</h1>
-          <p className="text-text-secondary text-subtitle max-w-lg">
+          <h1 className="text-2xl sm:text-title mb-3 tracking-tight">Events</h1>
+          <p className="text-text-secondary text-base sm:text-subtitle max-w-lg">
             Discover upcoming tech events, conferences, and meetups
           </p>
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-text-tertiary text-sm mt-6">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 lg:gap-6 text-text-tertiary text-xs sm:text-sm mt-4 sm:mt-6">
             <div className="flex items-center bg-graphite-400/30 px-3 py-1.5 rounded-lg">
               <Calendar size={16} className="mr-2" />
               <span>{events.length} Events</span>
@@ -177,26 +177,26 @@ export const Events: React.FC = () => {
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex bg-graphite-400/30 rounded-lg p-1 border border-graphite-300/30">
             <button 
-              className={`px-3 py-2 rounded text-sm transition-colors flex items-center ${viewMode === 'tiles' ? 'bg-graphite-300 text-white' : 'text-text-secondary hover:text-text-primary'}`}
+              className={`px-2 sm:px-3 py-2 rounded text-sm transition-colors flex items-center ${viewMode === 'tiles' ? 'bg-graphite-300 text-white' : 'text-text-secondary hover:text-text-primary'}`}
               onClick={() => setViewMode('tiles')}
               title="Tiles view"
             >
-              <Grid3X3 size={18} />
+              <Grid3X3 size={16} className="sm:w-[18px] sm:h-[18px]" />
             </button>
             <button 
-              className={`px-3 py-2 rounded text-sm transition-colors flex items-center ${viewMode === 'list' ? 'bg-graphite-300 text-white' : 'text-text-secondary hover:text-text-primary'}`}
+              className={`px-2 sm:px-3 py-2 rounded text-sm transition-colors flex items-center ${viewMode === 'list' ? 'bg-graphite-300 text-white' : 'text-text-secondary hover:text-text-primary'}`}
               onClick={() => setViewMode('list')}
               title="List view"
             >
-              <List size={18} />
+              <List size={16} className="sm:w-[18px] sm:h-[18px]" />
             </button>
           </div>
           
           <button 
             onClick={() => setShowFilters(!showFilters)}
-            className="cmd-btn"
+            className="cmd-btn text-xs sm:text-sm"
           >
-            <Filter size={18} />
+            <Filter size={16} className="sm:w-[18px] sm:h-[18px]" />
             <span className="ml-1 text-sm">Filter</span>
           </button>
         </div>
@@ -236,20 +236,20 @@ export const Events: React.FC = () => {
 
           {/* Load More Button */}
           {!loading && hasMore && events.length > 0 && (
-            <div className="flex justify-center mt-12">
+            <div className="flex justify-center mt-8 sm:mt-12">
               <button
                 onClick={handleLoadMore}
                 disabled={isLoadingMore}
-                className="flex items-center px-6 py-3 bg-graphite-400/40 hover:bg-graphite-300/40 border-2 border-red-500 rounded-lg text-text-primary transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] hover:shadow-lg"
+                className="flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-graphite-400/40 hover:bg-graphite-300/40 border-2 border-red-500 rounded-lg text-text-primary transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] hover:shadow-lg text-sm sm:text-base"
               >
                 {isLoadingMore ? (
                   <>
-                    <Loader2 size={18} className="animate-spin mr-2" />
+                    <Loader2 size={16} className="sm:w-[18px] sm:h-[18px] animate-spin mr-2" />
                     Loading {APP_CONFIG.EVENTS_LOAD_MORE_BATCH_SIZE} more events...
                   </>
                 ) : (
                   <>
-                    <Plus size={18} className="mr-2" />
+                    <Plus size={16} className="sm:w-[18px] sm:h-[18px] mr-2" />
                     Load {APP_CONFIG.EVENTS_LOAD_MORE_BATCH_SIZE} more events
                   </>
                 )}

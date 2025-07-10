@@ -12,6 +12,8 @@ import { Projects } from './pages/Projects';
 import { Notes } from './pages/Notes';
 import { Signals } from './pages/Signals';
 import { Events } from './pages/Events';
+// Import package.json to get version
+import packageJson from '../package.json';
 
 /**
  * Context for sharing state between App and pages
@@ -172,42 +174,42 @@ function App() {
           {/* Insights Modal */}
           {isInsightsModalOpen && (
             <div 
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setIsInsightsModalOpen(false);
                 }
               }}
             >
-              <div className="bg-background-secondary rounded-xl border border-graphite-300/30 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative">
-                <div className="p-6 border-b border-graphite-300/30 flex items-center justify-between">
-                  <h2 className="text-xl font-medium tracking-tight flex items-center">
-                    <Lightbulb size={20} className="mr-3 text-accent" />
-                    Insights
+              <div className="bg-background-secondary rounded-xl border border-graphite-300/30 max-w-2xl w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto relative">
+                <div className="p-4 sm:p-6 border-b border-graphite-300/30 flex items-center justify-between">
+                  <h2 className="text-lg sm:text-xl font-medium tracking-tight flex items-center">
+                    <Lightbulb size={18} className="sm:w-5 sm:h-5 mr-2 sm:mr-3 text-accent" />
+                    About (v{packageJson.version})
                   </h2>
                   <button
                     onClick={() => setIsInsightsModalOpen(false)}
-                    className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-graphite-300/40 text-text-secondary hover:text-text-primary transition-all duration-200"
+                    className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full hover:bg-graphite-300/40 text-text-secondary hover:text-text-primary transition-all duration-200"
                   >
-                    <X size={18} />
+                    <X size={16} className="sm:w-[18px] sm:h-[18px]" />
                   </button>
                 </div>
                 
-                <div className="p-6 text-text-secondary space-y-6">
-                  <p className="leading-relaxed">
+                <div className="p-4 sm:p-6 text-text-secondary space-y-4 sm:space-y-6">
+                  <p className="leading-relaxed text-sm sm:text-base">
                     This webpage dynamically loads events from a database aggregating events in SF.
                   </p>
                   
                   <div className="leading-relaxed">
-                    <p className="text-text-primary font-medium mb-3">TODOs</p>
+                    <p className="text-text-primary font-medium mb-2 sm:mb-3 text-sm sm:text-base">TODOs</p>
                     <ul className="space-y-2 ml-4">
                       <li className="flex items-start">
-                        <span className="text-text-tertiary mr-2">-</span>
-                        <span>Events can be filtered using various criteria (e.g., date, type, status)</span>
+                        <span className="text-text-tertiary mr-2 text-sm sm:text-base">-</span>
+                        <span className="text-xs sm:text-sm">Events can be filtered using various criteria (e.g., date, type, status)</span>
                       </li>
                       <li className="flex items-start">
-                        <span className="text-text-tertiary mr-2">-</span>
-                        <span>Scan events history for evolving patterns, like buzzwords and contents</span>
+                        <span className="text-text-tertiary mr-2 text-sm sm:text-base">-</span>
+                        <span className="text-xs sm:text-sm">Scan events history for evolving patterns, like buzzwords and contents</span>
                       </li>
                     </ul>
                   </div>

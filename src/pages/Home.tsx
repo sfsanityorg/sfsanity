@@ -27,7 +27,9 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
     search,
     clearSearch,
     getHighlightedText,
+    openAboutModal,
   } = React.useContext(AppContext);
+  
   const { 
     events, 
     loading, 
@@ -116,13 +118,13 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
   
 
   return (
-    <div className="max-w-4xl mx-auto pt-20 pb-12 px-4">
+    <div className="max-w-4xl mx-auto pt-16 sm:pt-20 pb-12 px-2 sm:px-4">
       <div className="grid grid-cols-1 gap-6">
         {/* Recent Events */}
-        <div id="recent-events-section" className="card bg-gradient-to-b from-background-secondary to-background p-8">
-          <div className="mb-8 flex justify-between items-start">
-            <h2 className="text-xl font-medium tracking-tight">Recent Events</h2>
-            <div className="flex items-center gap-3 ml-auto">
+        <div id="recent-events-section" className="card bg-gradient-to-b from-background-secondary to-background p-4 sm:p-8">
+          <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start gap-4">
+            <h2 className="text-lg sm:text-xl font-medium tracking-tight">Recent Events</h2>
+            <div className="flex items-center gap-2 sm:gap-3 ml-auto flex-wrap">
               {hasQuery && (
                 <span className="bg-accent-subtle px-3 py-1 rounded-full text-xs text-accent">
                   {searchResults.length} results
@@ -131,7 +133,7 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
               <span className="bg-accent-subtle px-3 py-1 rounded-full text-xs text-accent">
                 {recentEvents.length} events loaded
               </span>
-              <span className="text-text-secondary text-sm">
+              <span className="text-text-secondary text-xs sm:text-sm hidden sm:inline">
                 {currentDate}
               </span>
             </div>
@@ -194,19 +196,19 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
               
             <>
               {viewMode === 'tiles' ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                   {recentEvents.map((event) => (
-                    <div key={event.id} className="bg-graphite-400/30 rounded-lg p-4 hover:bg-graphite-400/40 transition-colors group">
-                      <div className="flex justify-between items-start mb-3">
+                    <div key={event.id} className="bg-graphite-400/30 rounded-lg p-3 sm:p-4 hover:bg-graphite-400/40 transition-colors group">
+                      <div className="flex justify-between items-start mb-2 sm:mb-3">
                         <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
                           {event.location}
                         </span>
-                        <span className="text-xs text-text-tertiary whitespace-nowrap">
+                        <span className="text-xs text-text-tertiary whitespace-nowrap ml-2">
                           {formatDate(event.date)} • {formatTime(event.time_pst)}
                         </span>
                       </div>
                       
-                      <h3 className="text-base font-medium mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                      <h3 className="text-sm sm:text-base font-medium mb-2 group-hover:text-accent transition-colors line-clamp-2">
                         {hasQuery ? (
                           <span dangerouslySetInnerHTML={{ 
                             __html: getHighlightedText(searchQuery, event.event_title) 
@@ -254,11 +256,11 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
               ) : (
                 <div className="space-y-3">
                   {recentEvents.map((event) => (
-                    <div key={event.id} className="bg-graphite-400/30 rounded-lg p-4 hover:bg-graphite-400/40 transition-colors group">
+                    <div key={event.id} className="bg-graphite-400/30 rounded-lg p-3 sm:p-4 hover:bg-graphite-400/40 transition-colors group">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center space-x-3">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
+                            <div className="flex items-center space-x-2 sm:space-x-3">
                               <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
                                 {hasQuery ? (
                                   <span dangerouslySetInnerHTML={{ 
@@ -268,7 +270,7 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
                                   event.location
                                 )}
                               </span>
-                              <h3 className="text-base font-medium group-hover:text-accent transition-colors">
+                              <h3 className="text-sm sm:text-base font-medium group-hover:text-accent transition-colors">
                                 {hasQuery ? (
                                   <span dangerouslySetInnerHTML={{ 
                                     __html: getHighlightedText(searchQuery, event.event_title) 
@@ -278,7 +280,7 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
                                 )}
                               </h3>
                             </div>
-                            <span className="text-xs text-text-tertiary whitespace-nowrap">
+                            <span className="text-xs text-text-tertiary whitespace-nowrap self-start sm:self-center">
                               <span dangerouslySetInnerHTML={{ 
                                 __html: hasQuery ? getHighlightedText(searchQuery, formatDate(event.date)) : formatDate(event.date) 
                               }} /> • {hasQuery ? (
@@ -322,30 +324,30 @@ export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsMo
               
               {/* Load More Button - Always Visible */}
               {hasMore && !hasQuery && (
-                <div className="flex justify-center items-center gap-3 mt-8">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6 sm:mt-8">
                 <button
                     onClick={handleLoadMore}
                     disabled={loading || isLoadingMore}
-                    className="flex items-center px-6 py-3 bg-graphite-400/40 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-primary transition-all duration-200 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-graphite-400/40 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-primary transition-all duration-200 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                 >
                     {isLoadingMore ? (
                       <>
-                        <Loader2 size={18} className="animate-spin mr-2" />
+                        <Loader2 size={16} className="sm:w-[18px] sm:h-[18px] animate-spin mr-2" />
                         Loading more events...
                       </>
                     ) : (
                       <>
-                        <Plus size={18} className="mr-2" />
+                        <Plus size={16} className="sm:w-[18px] sm:h-[18px] mr-2" />
                         Load {APP_CONFIG.EVENTS_LOAD_MORE_BATCH_SIZE} more events
                       </>
                     )}
                 </button>
                 <button
                   onClick={jumpToEventsTop}
-                  className="flex items-center px-4 py-3 bg-graphite-400/40 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
+                  className="flex items-center px-3 sm:px-4 py-2 sm:py-3 bg-graphite-400/40 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
                   title="Jump to top of events"
                 >
-                  <ArrowUp size={18} />
+                  <ArrowUp size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
                 </div>
               )}

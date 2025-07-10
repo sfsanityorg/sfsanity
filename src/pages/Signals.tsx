@@ -94,51 +94,51 @@ export const Signals: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 pt-32 pb-12">
-      <div className="flex justify-between items-end mb-12">
+    <div className="container mx-auto px-2 sm:px-4 pt-20 sm:pt-32 pb-12">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8 sm:mb-12">
         <div>
-          <h1 className="text-title mb-3 tracking-tight">Signals</h1>
-          <p className="text-text-secondary text-subtitle max-w-lg">
+          <h1 className="text-2xl sm:text-title mb-3 tracking-tight">Signals</h1>
+          <p className="text-text-secondary text-base sm:text-subtitle max-w-lg">
             System messages and intelligent alerts
           </p>
         </div>
         
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 sm:space-x-4">
           <button className="cmd-btn">
-            <Filter size={18} />
+            <Filter size={16} className="sm:w-[18px] sm:h-[18px]" />
             <span className="ml-1 text-sm">Filter</span>
           </button>
           
-          <button className="flex items-center px-4 py-2 text-sm text-text-secondary hover:text-text-primary bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg transition-all duration-200">
-            <CheckCircle2 size={16} className="mr-2" />
+          <button className="flex items-center px-3 sm:px-4 py-2 text-xs sm:text-sm text-text-secondary hover:text-text-primary bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg transition-all duration-200">
+            <CheckCircle2 size={14} className="sm:w-4 sm:h-4 mr-2" />
             Mark all as read
           </button>
         </div>
       </div>
       
       {/* Tabs */}
-      <div className="border-b border-graphite-300/30 mb-8">
-        <div className="flex space-x-8">
+      <div className="border-b border-graphite-300/30 mb-6 sm:mb-8">
+        <div className="flex space-x-4 sm:space-x-8 overflow-x-auto">
           <button 
-            className={`pb-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'all' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
+            className={`pb-3 sm:pb-4 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'all' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
             onClick={() => setActiveTab('all')}
           >
             All
           </button>
           <button 
-            className={`pb-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'alert' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
+            className={`pb-3 sm:pb-4 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'alert' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
             onClick={() => setActiveTab('alert')}
           >
             Alerts
           </button>
           <button 
-            className={`pb-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'notification' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
+            className={`pb-3 sm:pb-4 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'notification' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
             onClick={() => setActiveTab('notification')}
           >
             Notifications
           </button>
           <button 
-            className={`pb-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'insight' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
+            className={`pb-3 sm:pb-4 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'insight' ? 'border-accent text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary'}`}
             onClick={() => setActiveTab('insight')}
           >
             Insights
@@ -151,39 +151,42 @@ export const Signals: React.FC = () => {
         {filteredSignals.map(signal => (
           <div 
             key={signal.id}
-            className={`card group hover:translate-x-1 transition-all duration-200 ${!signal.read ? 'bg-background-secondary' : 'bg-background-tertiary/50'}`}
+            className={`card group hover:translate-x-1 transition-all duration-200 p-4 sm:p-6 ${!signal.read ? 'bg-background-secondary' : 'bg-background-tertiary/50'}`}
           >
             <div className="flex items-start">
-              <div className="mr-4 mt-1">
-                {getSignalIcon(signal.type, signal.priority)}
+              <div className="mr-3 sm:mr-4 mt-1">
+                {React.cloneElement(getSignalIcon(signal.type, signal.priority), {
+                  size: 16,
+                  className: `${getSignalIcon(signal.type, signal.priority).props.className} sm:w-[18px] sm:h-[18px]`
+                })}
               </div>
               
               <div className="flex-1">
-                <div className="flex justify-between items-start mb-1">
+                <div className="flex flex-col sm:flex-row justify-between items-start mb-1 gap-2">
                   <h3 className={`text-lg font-medium ${!signal.read ? '' : 'text-text-secondary'}`}>
                     {signal.title}
                   </h3>
-                  <div className="flex items-center text-text-tertiary text-sm">
-                    <Clock size={14} className="mr-1" />
+                  <div className="flex items-center text-text-tertiary text-xs sm:text-sm self-start sm:self-center">
+                    <Clock size={12} className="sm:w-[14px] sm:h-[14px] mr-1" />
                     {formatTime(signal.timestamp)}
                   </div>
                 </div>
                 
-                <p className="text-text-secondary text-sm mb-3">{signal.description}</p>
+                <p className="text-text-secondary text-xs sm:text-sm mb-3">{signal.description}</p>
                 
                 {signal.actionable && (
-                  <button className="text-accent text-sm flex items-center group-hover:underline">
+                  <button className="text-accent text-xs sm:text-sm flex items-center group-hover:underline">
                     Take action
-                    <ArrowUpRight size={14} className="ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight size={12} className="sm:w-[14px] sm:h-[14px] ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </button>
                 )}
               </div>
               
-              <div className="ml-4">
+              <div className="ml-3 sm:ml-4">
                 {!signal.read ? (
                   <div className="h-2 w-2 rounded-full bg-accent"></div>
                 ) : (
-                  <CheckCircle2 size={16} className="text-text-subtle" />
+                  <CheckCircle2 size={14} className="sm:w-4 sm:h-4 text-text-subtle" />
                 )}
               </div>
             </div>

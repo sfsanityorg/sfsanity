@@ -53,11 +53,11 @@
 
 @layer components {
   .card {
-    @apply bg-background-secondary rounded-lg p-6 transition-all duration-200;
+    @apply bg-background-secondary rounded-lg p-4 sm:p-6 transition-all duration-200;
   }
   
   .btn {
-    @apply px-4 py-2 rounded-md text-sm font-medium transition-all duration-200;
+    @apply px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all duration-200;
   }
   
   .btn-primary {
@@ -69,7 +69,7 @@
   }
   
   .cmd-btn {
-    @apply flex items-center gap-2 px-3 py-2 rounded-md text-text-secondary hover:text-text-primary hover:bg-graphite-400 transition-all duration-200;
+    @apply flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-md text-text-secondary hover:text-text-primary hover:bg-graphite-400 transition-all duration-200 text-xs sm:text-sm;
   }
 }
 
@@ -97,6 +97,23 @@ mark {
   color: #0066FF;
   padding: 0;
   border-radius: 2px;
+}
+
+/* Responsive text utilities */
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 /* Command bar styles */

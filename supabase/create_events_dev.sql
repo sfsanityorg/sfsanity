@@ -7,7 +7,7 @@ CREATE TABLE events_dev (
     link VARCHAR(255)           -- Link to the event
 );
 ALTER TABLE events_dev ENABLE ROW LEVEL SECURITY;
-create policy "Allow inserts for authenticated users"
+create policy "Allow inserts  for authenticated users"
 on events_dev
 for insert
 with check (true);

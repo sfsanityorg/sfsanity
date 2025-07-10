@@ -55,10 +55,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     <div className={`relative ${className}`}>
       <div className="relative">
         <Search 
-          size={16} 
+          size={14} 
           className={`absolute left-3 top-1/2 transform -translate-y-1/2 transition-colors ${
             isSearching ? 'text-accent animate-pulse' : 'text-text-tertiary'
-          }`} 
+          } sm:w-4 sm:h-4`} 
         />
         <input
           type="text"
@@ -66,16 +66,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
           placeholder={placeholder}
-          className="w-full bg-graphite-400/40 border border-graphite-300/30 rounded-lg py-2 pl-10 pr-10 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all duration-200"
+          className="w-full bg-graphite-400/40 border border-graphite-300/30 rounded-lg py-2 pl-9 sm:pl-10 pr-8 sm:pr-10 text-xs sm:text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all duration-200"
           disabled={isSearching}
         />
         {showClearButton && value && (
           <button
             onClick={handleClear}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-tertiary hover:text-text-primary transition-colors"
+            className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-text-tertiary hover:text-text-primary transition-colors"
             title="Clear search"
           >
-            <X size={16} />
+            <X size={14} className="sm:w-4 sm:h-4" />
           </button>
         )}
       </div>
