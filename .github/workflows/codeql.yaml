@@ -1,0 +1,25 @@
+name: "CodeQL config"
+
+packs:
+  - codeql/javascript-queries
+
+paths:
+  - src
+  - components
+  - pages
+  - lib
+
+paths-ignore:
+  - node_modules
+  - public
+  - dist
+  - build
+  - .next
+  - coverage
+
+# query-filters:
+#   - exclude:
+#       tag: security-low
+
+# Can be "none", "manual", or "autobuild"
+build-mode: none
