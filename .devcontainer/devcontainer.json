@@ -8,5 +8,5 @@
       "onAutoForward": "openPreview"
     }
   },
-  "postCreateCommand": "yarn dev"
+  "postCreateCommand": "npm install"
 }

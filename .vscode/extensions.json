@@ -1,7 +1,10 @@
 {
     "recommendations": [
-        "esbenp.prettier-vscode",
+        "christian-kohler.npm-intellisense",
         "dbaeumer.vscode-eslint",
-        "ms-azuretools.vscode-docker"
+        "esbenp.prettier-vscode",
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-azuretools.vscode-containers"
     ]
 }
