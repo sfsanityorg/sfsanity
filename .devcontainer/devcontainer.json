@@ -8,5 +8,5 @@
       "onAutoForward": "openPreview"
     }
   },
-  "postCreateCommand": "npm install"
+  "postCreateCommand": "cd frontend/ && npm install"
 }
