@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { Calendar, Clock, Filter, Loader2, Grid3X3, List, Plus } from 'lucide-react';
+import { Calendar, Clock, Filter, Loader2, Grid3X3, List, Plus, ExternalLink } from 'lucide-react';
 import { useEvents } from '../hooks/useEvents';
 import { APP_CONFIG } from '../config/app';
 import { DatabaseErrorMessage } from '../components/common/DatabaseErrorMessage';
@@ -18,8 +18,6 @@ export const Events: React.FC = () => {
     searchResults,
     isSearching,
     hasQuery,
-    search,
-    clearSearch,
     getHighlightedText,
   } = React.useContext(AppContext);
   
@@ -29,10 +27,7 @@ export const Events: React.FC = () => {
     isLoadingMore,
     error, 
     isRetrying,
-    hasMore, 
-    searchEvents, 
-    filterEventsByDate, 
-    refetch, 
+    hasMore,
     retryLastOperation,
     loadMoreEvents 
   } = useEvents();
@@ -46,9 +41,6 @@ export const Events: React.FC = () => {
   const handleLoadMore = async () => {
     await loadMoreEvents();
   };
-
-  // Determine which events to display
-  const displayEvents = hasQuery ? searchResults : events;
   
   /**
    * Gets relative time (e.g., "2 days ago") from date string
