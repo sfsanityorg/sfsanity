@@ -17,7 +17,9 @@ interface HomeProps {
  * Home page component
  * Displays the main dashboard with focus areas and recent events
  */
-export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsModalOpen }) => {
+// FIXME isInsightsModalOpen, setIsInsightsModalOpen unused ?
+// export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsModalOpen }) => {
+export const Home: React.FC<HomeProps> = () => {
   const { 
     viewMode,
     searchQuery,
