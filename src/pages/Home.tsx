@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Clock, ExternalLink, Loader2, Plus, ArrowUp } from 'lucide-react';
+import { ExternalLink, Loader2, Plus, ArrowUp } from 'lucide-react';
 import { useEvents } from '../hooks/useEvents';
 import { APP_CONFIG } from '../config/app';
 import { DatabaseErrorMessage } from '../components/common/DatabaseErrorMessage';
@@ -17,17 +17,15 @@ interface HomeProps {
  * Home page component
  * Displays the main dashboard with focus areas and recent events
  */
-export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsModalOpen }) => {
+// FIXME isInsightsModalOpen, setIsInsightsModalOpen unused ?
+// export const Home: React.FC<HomeProps> = ({ isInsightsModalOpen, setIsInsightsModalOpen }) => {
+export const Home: React.FC<HomeProps> = () => {
   const { 
     viewMode,
     searchQuery,
     searchResults,
-    isSearching,
     hasQuery,
-    search,
-    clearSearch,
     getHighlightedText,
-    openAboutModal,
   } = React.useContext(AppContext);
   
   const { 

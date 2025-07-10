@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Command, Search, Grid3X3, List, ArrowDown, Lightbulb, X, Github, Menu } from 'lucide-react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { ConnectionStatus } from '../common/ConnectionStatus';
 import { SearchBar } from '../common/SearchBar';
 import { APP_CONFIG } from '../../config/app';
@@ -43,10 +43,8 @@ export default function TopNav({
   showSearch = false,
   onToggleSearch
 }: TopNavProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [setIsExpanded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   /**

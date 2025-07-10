@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Lightbulb, X } from 'lucide-react';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
@@ -104,9 +104,9 @@ function App() {
   /**
    * Toggles between tiles and list view modes
    */
-  const toggleViewMode = () => {
-    setViewMode(prev => prev === 'tiles' ? 'list' : 'tiles');
-  };
+  // const toggleViewMode = () => {
+  //   setViewMode(prev => prev === 'tiles' ? 'list' : 'tiles');
+  // };
   
   /**
    * Scrolls to the bottom of the events section
