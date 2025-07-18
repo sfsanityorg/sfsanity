@@ -1,14 +1,16 @@
 name: "CodeQL config"
-
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 packs:
   - codeql/javascript-queries
-
 paths:
-  - src
-  - components
-  - pages
-  - lib
-
+  - frontend
 paths-ignore:
   - node_modules
   - public
@@ -16,10 +18,8 @@ paths-ignore:
   - build
   - .next
   - coverage
-
 # query-filters:
 #   - exclude:
 #       tag: security-low
-
-# Can be "none", "manual", or "autobuild"
-build-mode: none
+build-mode: manual
+build-command: "cd frontend && npm install && npm run build"
