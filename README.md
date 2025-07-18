@@ -4,7 +4,6 @@ Event aggregator and filter for San Francisco. Discover and manage tech events, 
 
 [![CodeQL](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml/badge.svg)](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml)
 [![CodeFactor](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity/badge)](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity)
-[![CodeQL](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml/badge.svg)](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml)
 
 ## Features
 
