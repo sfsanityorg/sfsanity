@@ -1,17 +1,30 @@
-CREATE TABLE events_dev (
-    id SERIAL PRIMARY KEY,      -- Auto-incrementing primary key
-    event_title VARCHAR(255),   -- Event name
-    date VARCHAR(255),          -- Event date as string, not DATE
-    time_pst VARCHAR(255),      -- Event as string, not TIME PST
-    location VARCHAR(255),      -- Event location
-    link VARCHAR(255)           -- Link to the event
-);
-ALTER TABLE events_dev ENABLE ROW LEVEL SECURITY;
-create policy "Allow inserts  for authenticated users"
-on events_dev
-for insert
-with check (true);
-CREATE POLICY "Allow read for everyone"
-ON events_dev
-FOR SELECT
-USING (true);
+DO $$
+DECLARE
+    table_name text := 'events_dev_test';
+BEGIN
+    EXECUTE format(
+        'CREATE TABLE %I (
+            id SERIAL PRIMARY KEY,
+            event_title VARCHAR(255),
+            event_description VARCHAR(1023),
+            event_host VARCHAR(255),
+            event_organizer VARCHAR(255),
+            event_keywords VARCHAR(255),
+            date_display VARCHAR(255),
+            date_iso VARCHAR(255),
+            time_pst VARCHAR(255),
+            location VARCHAR(255),
+            link VARCHAR(255)
+        );
+        ALTER TABLE %I ENABLE ROW LEVEL SECURITY;
+        CREATE POLICY "Allow inserts  for authenticated users"
+            ON %I
+            FOR INSERT
+            WITH CHECK (true);
+        CREATE POLICY "Allow read for everyone"
+            ON %I
+            FOR SELECT
+            USING (true);',
+        table_name, table_name, table_name, table_name
+    );
+END $$;

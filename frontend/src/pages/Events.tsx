@@ -11,6 +11,7 @@ import { DatabaseErrorMessage } from '../components/common/DatabaseErrorMessage'
 import { SearchResults } from '../components/common/SearchResults';
 import { AppContext } from '../App';
 import { getDisplayDomain } from '../utils/linkUtils';
+import { getRelativeTime } from '../utils/dateUtils';
 
 export const Events: React.FC = () => {
   const {
@@ -41,35 +42,7 @@ export const Events: React.FC = () => {
   const handleLoadMore = async () => {
     await loadMoreEvents();
   };
-  
-  /**
-   * Gets relative time (e.g., "2 days ago") from date string
-   * Handles string dates from VARCHAR database column
-   */
-  const getRelativeTime = (dateString: string): string => {
-    try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        return dateString; // Return original string if not parseable
-      }
-      
-      const now = new Date();
-      const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-      
-      if (diffInDays === 0) {
-        return 'Today';
-      } else if (diffInDays === 1) {
-        return 'Yesterday';
-      } else if (diffInDays < 7) {
-        return `${diffInDays}d ago`;
-      } else {
-        return `${Math.floor(diffInDays / 7)}w ago`;
-      }
-    } catch {
-      return dateString; // Return original string if parsing fails
-    }
-  };
-  
+
   if (error) {
     return (
       <div className="container mx-auto px-4 pt-32 pb-12">

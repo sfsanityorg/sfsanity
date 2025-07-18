@@ -7,6 +7,7 @@ import React from 'react';
 import { Calendar, ExternalLink, Search } from 'lucide-react';
 import { Event } from '../../lib/supabase';
 import { getDisplayDomain } from '../../utils/linkUtils';
+import { formatDate, formatTime, getDisplayMonthYear } from '../../utils/dateUtils';
 
 interface SearchResultsProps {
   /** Search results to display */
@@ -34,51 +35,6 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
   getHighlightedText,
   viewMode = 'tiles',
 }) => {
-  /**
-   * Formats date string to readable format
-   * Handles string dates from VARCHAR database column
-   */
-  const formatDate = (dateString: string): string => {
-    try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        return dateString; // Return original string if not parseable
-      }
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      });
-    } catch {
-      return dateString; // Return original string if parsing fails
-    }
-  };
-
-  /**
-   * Formats time string for display
-   * Handles string times from VARCHAR database column
-   */
-  const formatTime = (timeString: string): string => {
-    try {
-      // If it already contains AM/PM, return as is
-      if (timeString.includes('AM') || timeString.includes('PM')) {
-        return timeString;
-      }
-      
-      // Try to parse HH:MM format
-      const [hours, minutes] = timeString.split(':');
-      if (hours && minutes) {
-        const hour = parseInt(hours);
-        const ampm = hour >= 12 ? 'PM' : 'AM';
-        const displayHour = hour % 12 || 12;
-        return `${displayHour}:${minutes} ${ampm} PST`;
-      }
-      
-      return timeString; // Return original if can't parse
-    } catch {
-      return timeString; // Return original string if parsing fails
-    }
-  };
-
   // Loading state
   if (isSearching) {
     return (
@@ -126,11 +82,19 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 
       {viewMode === 'tiles' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {results.map((event) => (
-            <div
-              key={event.id}
-              className="card hover:translate-y-[-2px] sm:hover:translate-y-[-4px] group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6"
-            >
+          {results.map((event, index) => {
+            const currentMonthYear = getDisplayMonthYear(event.date);
+            const previousMonthYear = index > 0 ? getDisplayMonthYear(results[index - 1].date) : null;
+            const showSeparator = index > 0 && currentMonthYear !== previousMonthYear;
+
+            return (
+              <React.Fragment key={event.id}>
+                {showSeparator && (
+                  <div className="col-span-full text-center py-4 text-text-secondary font-medium text-sm border-t border-graphite-300/30 mt-4">
+                    {currentMonthYear}
+                  </div>
+                )}
+                <div className="card hover:translate-y-[-2px] sm:hover:translate-y-[-4px] group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6">
               <div className="flex justify-between items-start mb-3 sm:mb-4">
                 <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
                   {event.location}
@@ -176,16 +140,26 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                   </a>
                 )}
               </div>
-            </div>
-          ))}
+                </div>
+              </React.Fragment>
+            );
+          })}
         </div>
       ) : (
         <div className="space-y-4">
-          {results.map((event) => (
-            <div
-              key={event.id}
-              className="card hover:translate-x-1 group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6"
-            >
+          {results.map((event, index) => {
+            const currentMonthYear = getDisplayMonthYear(event.date);
+            const previousMonthYear = index > 0 ? getDisplayMonthYear(results[index - 1].date) : null;
+            const showSeparator = index > 0 && currentMonthYear !== previousMonthYear;
+
+            return (
+              <React.Fragment key={event.id}>
+                {showSeparator && (
+                  <div className="text-center py-4 text-text-secondary font-medium text-sm border-t border-graphite-300/30 mt-4">
+                    {currentMonthYear}
+                  </div>
+                )}
+                <div className="card hover:translate-x-1 group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
@@ -232,8 +206,10 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+                </div>
+              </React.Fragment>
+            );
+          })}
         </div>
       )}
     </div>

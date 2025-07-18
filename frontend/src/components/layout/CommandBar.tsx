@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Command, Sparkles, FileText, Calendar, Bell, Search } from 'lucide-react';
+import { Command, Sparkles, Calendar, Search } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 export const CommandBar: React.FC = () => {
@@ -38,25 +38,11 @@ export const CommandBar: React.FC = () => {
             <span className="hidden md:inline text-sm">Home</span>
           </NavLink>
           
-          <NavLink to="/projects" className={({isActive}) => 
+          <NavLink to="/events" className={({isActive}) => 
             `cmd-btn ${isActive ? 'text-text-primary bg-graphite-300/40' : ''}`
           }>
             <Calendar size={18} />
-            <span className="hidden md:inline text-sm">Projects</span>
-          </NavLink>
-          
-          <NavLink to="/notes" className={({isActive}) => 
-            `cmd-btn ${isActive ? 'text-text-primary bg-graphite-300/40' : ''}`
-          }>
-            <FileText size={18} />
-            <span className="hidden md:inline text-sm">Notes</span>
-          </NavLink>
-          
-          <NavLink to="/signals" className={({isActive}) => 
-            `cmd-btn ${isActive ? 'text-text-primary bg-graphite-300/40' : ''}`
-          }>
-            <Bell size={18} />
-            <span className="hidden md:inline text-sm">Signals</span>
+            <span className="hidden md:inline text-sm">Events</span>
           </NavLink>
         </nav>
 

@@ -2,16 +2,18 @@
 
 Event aggregator and filter for San Francisco. Discover and manage tech events, conferences, and meetups.
 
+[![CodeFactor](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity/badge)](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity)
+
 ## Features
 
-- **Events**: Show lu.ma events fetched from Supabase database.
+- **Events**: Show lu.ma events
 - **Search**: Fuzzy search with Fuse.js, supports searching by title, location, date, time, or link. Returns up to 50 results.
 - **View Mode**: Toggle between tile and list view modes.
 - **Responsive Design**: Fully responsive layout for mobile and desktop devices.
 - **Connection Status**: Real-time monitoring of database connection status.
 - **Error Handling**: Graceful error handling with user-friendly messages.
 - **Navigation**: CommandBar for quick navigation between main sections.
-- **Insights**: About section displaying application version and TODOs.
+- **Insights**: About section displaying application version and TODOs
 
 ### TODO
 

@@ -5,6 +5,7 @@ import { APP_CONFIG } from '../config/app';
 import { DatabaseErrorMessage } from '../components/common/DatabaseErrorMessage';
 import { AppContext } from '../App';
 import { getDisplayDomain } from '../utils/linkUtils';
+import { formatDate, formatTime, getDisplayMonthYear } from '../utils/dateUtils';
 
 interface HomeProps {
   /** Whether the insights modal is open */
@@ -121,7 +122,7 @@ export const Home: React.FC<HomeProps> = () => {
         {/* Recent Events */}
         <div id="recent-events-section" className="card bg-gradient-to-b from-background-secondary to-background p-4 sm:p-8">
           <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start gap-4">
-            <h2 className="text-lg sm:text-xl font-medium tracking-tight">Recent Events</h2>
+            <h2 className="text-lg sm:text-xl font-medium tracking-tight">{ APP_CONFIG.HOME_EVENTS_HEADING }</h2>
             <div className="flex items-center gap-2 sm:gap-3 ml-auto flex-wrap">
               {hasQuery && (
                 <span className="bg-accent-subtle px-3 py-1 rounded-full text-xs text-accent">
@@ -195,8 +196,19 @@ export const Home: React.FC<HomeProps> = () => {
             <>
               {viewMode === 'tiles' ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-                  {recentEvents.map((event) => (
-                    <div key={event.id} className="bg-graphite-400/30 rounded-lg p-3 sm:p-4 hover:bg-graphite-400/40 transition-colors group">
+                  {recentEvents.map((event, index) => {
+                    const currentMonthYear = getDisplayMonthYear(event.date);
+                    const previousMonthYear = index > 0 ? getDisplayMonthYear(recentEvents[index - 1].date) : null;
+                    const showSeparator = index > 0 && currentMonthYear !== previousMonthYear;
+
+                    return (
+                      <React.Fragment key={event.id}>
+                        {showSeparator && (
+                          <div className="col-span-full text-center py-4 text-text-secondary font-medium text-sm border-t border-graphite-300/30 mt-4">
+                            {currentMonthYear}
+                          </div>
+                        )}
+                        <div className="bg-graphite-400/30 rounded-lg p-3 sm:p-4 hover:bg-graphite-400/40 transition-colors group">
                       <div className="flex justify-between items-start mb-2 sm:mb-3">
                         <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
                           {event.location}
@@ -248,13 +260,26 @@ export const Home: React.FC<HomeProps> = () => {
                           </a>
                         )}
                       </div>
-                    </div>
-                  ))}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {recentEvents.map((event) => (
-                    <div key={event.id} className="bg-graphite-400/30 rounded-lg p-3 sm:p-4 hover:bg-graphite-400/40 transition-colors group">
+                  {recentEvents.map((event, index) => {
+                    const currentMonthYear = getDisplayMonthYear(event.date);
+                    const previousMonthYear = index > 0 ? getDisplayMonthYear(recentEvents[index - 1].date) : null;
+                    const showSeparator = index > 0 && currentMonthYear !== previousMonthYear;
+
+                    return (
+                      <React.Fragment key={event.id}>
+                        {showSeparator && (
+                          <div className="text-center py-4 text-text-secondary font-medium text-sm border-t border-graphite-300/30 mt-4">
+                            {currentMonthYear}
+                          </div>
+                        )}
+                        <div className="bg-graphite-400/30 rounded-lg p-3 sm:p-4 hover:bg-graphite-400/40 transition-colors group">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
@@ -315,8 +340,10 @@ export const Home: React.FC<HomeProps> = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
               )}
               

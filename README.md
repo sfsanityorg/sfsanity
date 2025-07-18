@@ -4,6 +4,7 @@ Event aggregator and filter for San Francisco. Discover and manage tech events, 
 
 [![CodeQL](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml/badge.svg)](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml)
 [![CodeFactor](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity/badge)](https://www.codefactor.io/repository/github/sfsanityorg/sfsanity)
+[![CodeQL](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml/badge.svg)](https://github.com/sfsanityorg/sfsanity/actions/workflows/codeql.yaml)
 
 ## Features
 
@@ -13,6 +14,8 @@ Event aggregator and filter for San Francisco. Discover and manage tech events, 
 - **Responsive Design**: Fully responsive layout for mobile and desktop devices.
 - **Connection Status**: Real-time monitoring of database connection status.
 - **Error Handling**: Graceful error handling with user-friendly messages.
+- **Navigation**: CommandBar for quick navigation between main sections.
+- **Insights**: About section displaying application version and TODOs.
 
 ### TODO
 
@@ -49,7 +52,7 @@ The application uses environment variables for configuration.  Create a `.env` f
 -   `VITE_SUPABASE_URL`:  The URL of your Supabase project.
 -   `VITE_SUPABASE_ANON_KEY`:  The anonymous key for your Supabase project.
 
-See [src/config/app.ts](https://github.com/sfsanityorg/sfsanity/blob/main/src/config/app.ts) for additional configuration options.
+See [src/config/app.ts](https://github.com/sfsanityorg/sfsanity/blob/main/src/config/app.ts) for additional configuration options, including database target table and event ordering.
 
 ## Scripts
 
@@ -60,4 +63,17 @@ See [src/config/app.ts](https://github.com/sfsanityorg/sfsanity/blob/main/src/co
 
 ## Database
 
-The Supabase database schema is defined in [supabase/create_events_dev.sql](https://github.com/sfsanityorg/sfsanity/blob/main/supabase/create_events_dev.sql).
+The Supabase database schema is defined in [supabase/create_events_dev.sql](https://github.com/sfsanityorg/sfsanity/blob/main/supabase/create_events_dev.sql). The target table is configured in [src/config/app.ts](https://github.com/sfsanityorg/sfsanity/blob/main/src/config/app.ts) as `DATABASE_TARGET_TABLE`.
+
+## Hooks
+
+-   [src/hooks/useEvents.ts](https://github.com/sfsanityorg/sfsanity/blob/main/src/hooks/useEvents.ts): Fetches and manages events data from Supabase, including real-time updates.
+-   [src/hooks/useSearch.ts](https://github.com/sfsanityorg/sfsanity/blob/main/src/hooks/useSearch.ts): Implements fuzzy search functionality using Fuse.js.
+
+## Components
+
+-   [src/components/common/ConnectionStatus.tsx](https://github.com/sfsanityorg/sfsanity/blob/main/src/components/common/ConnectionStatus.tsx): Monitors and displays the database connection status.
+-   [src/components/common/SearchBar.tsx](https://github.com/sfsanityorg/sfsanity/blob/main/src/components/common/SearchBar.tsx): Reusable search bar component.
+-   [src/components/common/SearchResults.tsx](https://github.com/sfsanityorg/sfsanity/blob/main/src/components/common/SearchResults.tsx): Displays search results with highlighting.
+-   [src/components/layout/CommandBar.tsx](https://github.com/sfsanityorg/sfsanity/blob/main/src/components/layout/CommandBar.tsx): Fixed navigation bar at the bottom of the screen for easy access to main sections.
+-   [src/components/layout/TopNav.tsx](https://github.com/sfsanityorg/sfsanity/blob/main/src/components/layout/TopNav.tsx): Top navigation bar containing search, view mode toggle, and insights button.

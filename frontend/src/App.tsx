@@ -8,9 +8,6 @@ import { useSearch } from './hooks/useSearch';
 import { useEvents } from './hooks/useEvents';
 import { APP_CONFIG } from './config/app';
 import { Home } from './pages/Home';
-import { Projects } from './pages/Projects';
-import { Notes } from './pages/Notes';
-import { Signals } from './pages/Signals';
 import { Events } from './pages/Events';
 // Import package.json to get version
 import packageJson from '../package.json';
@@ -137,6 +134,13 @@ function App() {
     });
   };
   
+  /**
+   * Handles tag clicks from TopNav
+   */
+  const handleTagClick = (tag: string) => {
+    search(tag);
+  };
+  
   // Determine if we should show events controls based on current route
   const showEventsControls = location.pathname === '/';
   const showInsightsButton = location.pathname === '/';
@@ -153,6 +157,7 @@ function App() {
     isSearching,
     showSearch,
     onToggleSearch: toggleSearch,
+    onTagClick: handleTagClick,
   };
 
   return (
@@ -185,7 +190,7 @@ function App() {
                 <div className="p-4 sm:p-6 border-b border-graphite-300/30 flex items-center justify-between">
                   <h2 className="text-lg sm:text-xl font-medium tracking-tight flex items-center">
                     <Lightbulb size={18} className="sm:w-5 sm:h-5 mr-2 sm:mr-3 text-accent" />
-                    About (v{packageJson.version})
+                    { APP_CONFIG.INSIGHTS_HEADING }
                   </h2>
                   <button
                     onClick={() => setIsInsightsModalOpen(false)}
@@ -197,20 +202,18 @@ function App() {
                 
                 <div className="p-4 sm:p-6 text-text-secondary space-y-4 sm:space-y-6">
                   <p className="leading-relaxed text-sm sm:text-base">
-                    This webpage dynamically loads events from a database aggregating events in SF.
+                    { APP_CONFIG.INSIGHTS_DESCRIPTION }
                   </p>
                   
                   <div className="leading-relaxed">
-                    <p className="text-text-primary font-medium mb-2 sm:mb-3 text-sm sm:text-base">TODOs</p>
+                    <p className="text-text-primary font-medium mb-2 sm:mb-3 text-sm sm:text-base">{ APP_CONFIG.INSIGHTS_TODO_HEADER }</p>
                     <ul className="space-y-2 ml-4">
-                      <li className="flex items-start">
-                        <span className="text-text-tertiary mr-2 text-sm sm:text-base">-</span>
-                        <span className="text-xs sm:text-sm">Events can be filtered using various criteria (e.g., date, type, status)</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-text-tertiary mr-2 text-sm sm:text-base">-</span>
-                        <span className="text-xs sm:text-sm">Scan events history for evolving patterns, like buzzwords and contents</span>
-                      </li>
+                      {APP_CONFIG.INSIGHTS_TODO_ITEMS.map((item, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="text-text-tertiary mr-2 text-sm sm:text-base">-</span>
+                          <span className="text-xs sm:text-sm">{item}</span>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -221,9 +224,6 @@ function App() {
           <AnimatePresence mode="wait" initial={false}>
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<PageWrapper><Home isInsightsModalOpen={isInsightsModalOpen} setIsInsightsModalOpen={setIsInsightsModalOpen} /></PageWrapper>} />
-              <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
-              <Route path="/notes" element={<PageWrapper><Notes /></PageWrapper>} />
-              <Route path="/signals" element={<PageWrapper><Signals /></PageWrapper>} />
               <Route path="/events" element={<PageWrapper><Events /></PageWrapper>} />
             </Routes>
           </AnimatePresence>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Command, Search, Grid3X3, List, ArrowDown, Lightbulb, X, Github, Menu } from 'lucide-react';
+import { Command, Search, Grid3X3, List, ArrowDown, Lightbulb, X, Github, Menu, Hash } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { ConnectionStatus } from '../common/ConnectionStatus';
 import { SearchBar } from '../common/SearchBar';
@@ -24,6 +24,8 @@ interface TopNavProps {
   isSearching?: boolean;
   showSearch?: boolean;
   onToggleSearch?: () => void;
+  /** Callback to handle tag clicks */
+  onTagClick?: (tag: string) => void;
 }
 
 /**
@@ -41,7 +43,8 @@ export default function TopNav({
   onSearchChange,
   isSearching = false,
   showSearch = false,
-  onToggleSearch
+  onToggleSearch,
+  onTagClick
 }: TopNavProps) {
   const [setIsExpanded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -72,6 +75,14 @@ export default function TopNav({
   };
 
   /**
+   * Handles tag click
+   */
+  const handleTagClick = (tag: string) => {
+    if (onTagClick) {
+      onTagClick(tag);
+    }
+  };
+  /**
    * Handles clicks outside the search container to close search
    */
   useEffect(() => {
@@ -98,7 +109,7 @@ export default function TopNav({
       ref={searchContainerRef}
       className={`fixed top-2 sm:top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-2 sm:px-4 transition-all duration-300
         bg-graphite-400/80 border border-graphite-300/30 backdrop-blur-md rounded-xl
-        ${showSearch ? 'h-20' : 'h-14'}`}
+        ${showSearch ? 'h-32 sm:h-28' : 'h-14'}`}
     >
       <div className={`h-full flex ${showSearch ? 'flex-col' : 'items-center'} justify-between`}>
         {/* Main navigation row */}
@@ -191,14 +202,27 @@ export default function TopNav({
         
         {/* Search row */}
         {showSearch && (
-          <div className="w-full px-1 sm:px-2 pb-3">
+          <div className="w-full px-1 sm:px-2 pb-3 space-y-3">
             <SearchBar
               value={searchQuery}
               onChange={onSearchChange || (() => {})}
-              placeholder="Search events by title, location, date, time, or link..."
+              placeholder={APP_CONFIG.SEARCH_PLACEHOLDER_TEXT}
               isSearching={isSearching}
               className="w-full"
             />
+            
+            {/* Search Tags */}
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+              {APP_CONFIG.SEARCH_TAGS.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => handleTagClick(tag)}
+                  className="px-2 py-1 bg-graphite-400/40 hover:bg-accent/20 border border-graphite-300/30 hover:border-accent/30 rounded-md text-xs text-text-secondary hover:text-accent transition-all duration-200 hover:scale-105"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
