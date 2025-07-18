@@ -49,6 +49,51 @@ export const Home: React.FC<HomeProps> = () => {
   });
 
   /**
+   * Formats date string to readable format
+   * Handles string dates from VARCHAR database column
+   */
+  const formatDate = (dateString: string): string => {
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return dateString; // Return original string if not parseable
+      }
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      });
+    } catch {
+      return dateString; // Return original string if parsing fails
+    }
+  };
+
+  /**
+   * Formats time string for display
+   * Handles string times from VARCHAR database column
+   */
+  const formatTime = (timeString: string): string => {
+    try {
+      // If it already contains AM/PM, return as is
+      if (timeString.includes('AM') || timeString.includes('PM')) {
+        return timeString;
+      }
+      
+      // Try to parse HH:MM format
+      const [hours, minutes] = timeString.split(':');
+      if (hours && minutes) {
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour % 12 || 12;
+        return `${displayHour}:${minutes} ${ampm} PST`;
+      }
+      
+      return timeString; // Return original if can't parse
+    } catch {
+      return timeString; // Return original string if parsing fails
+    }
+  };
+
+  /**
    * Gets events for display on home page
    */
   const recentEvents = hasQuery ? searchResults : events;

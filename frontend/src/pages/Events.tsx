@@ -42,7 +42,7 @@ export const Events: React.FC = () => {
   const handleLoadMore = async () => {
     await loadMoreEvents();
   };
-  
+
   if (error) {
     return (
       <div className="container mx-auto px-4 pt-32 pb-12">
