@@ -2,6 +2,7 @@
  * Application configuration constants
  * Centralized configuration for app-wide settings
  */
+import { version } from '../../package.json';
 
 export const APP_CONFIG = {
   /** Database Configuration */
@@ -18,9 +19,9 @@ export const APP_CONFIG = {
   
   /** Data Loading Settings */
   /** Number of events to load per batch when clicking "Load More" */
-  EVENTS_LOAD_MORE_BATCH_SIZE: 25,
+  EVENTS_LOAD_MORE_BATCH_SIZE: 50,
   /** Initial number of events to load on page load */
-  EVENTS_INITIAL_LOAD_SIZE: 25,
+  EVENTS_INITIAL_LOAD_SIZE: 50,
   
   /** Connection and Retry Settings */
   /** Interval for automatic connection checks (in milliseconds) */
@@ -45,6 +46,7 @@ export const APP_CONFIG = {
   PAGE_TRANSITION_EASING: [0.43, 0.13, 0.23, 0.96] as const,
   
   /** Layout Settings */
+  HOME_EVENTS_HEADING: 'Events found' as const,
   /** Top navigation height when expanded (in rem) */
   TOP_NAV_HEIGHT_EXPANDED: 16,
   /** Top navigation height when collapsed (in rem) */
@@ -63,6 +65,17 @@ export const APP_CONFIG = {
   SEARCH_DEBOUNCE_DELAY: 300,
   /** Maximum number of search results to display */
   MAX_SEARCH_RESULTS: 50,
+  SEARCH_PLACEHOLDER_TEXT: 'Search events by title, location, date, time, or link...' as const,
+  SEARCH_TAGS: [
+    'security',
+    'startup', 
+    'agent',
+    'dev tool',
+    'hack',
+    'bio',
+    'web3',
+    'crypto'
+  ] as const,
   
   /** Cache Settings */
   /** How long to cache events data (in milliseconds) */
@@ -81,6 +94,17 @@ export const APP_CONFIG = {
   GITHUB_TOOLTIP: 'Raise issues and feature requests on Github' as const,
   
   /** Insights Settings */
-  /** Default expanded state for Insights section */
   INSIGHTS_DEFAULT_EXPANDED: false,
+  INSIGHTS_HEADING: `About (v${version})` as const,
+  INSIGHTS_DESCRIPTION: 'This webpage dynamically loads events from a database aggregating events in SF.' as const,
+  INSIGHTS_TODO_HEADER: 'Upcoming features' as const,
+  INSIGHTS_TODO_ITEMS: [
+    'Add more event sources',
+    'Add event descriptions',
+    'Add alert functionality for prefered tags',
+    'Add anti-preferences alerts to mix with unknown',
+    'Add current day label and jump mark',
+    'Scan events history for evolving patterns, like buzzwords and contents',
+    'Visualize trends for customers, organizers and hosts'
+  ] as const, 
 } as const;
