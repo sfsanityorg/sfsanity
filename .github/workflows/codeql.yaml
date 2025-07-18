@@ -1,25 +1,62 @@
 name: "CodeQL config"
+
 on:
   push:
     branches:
-      - '*'
+      - main
+      - 'feat-*'
+      - 'dev-*'
   pull_request:
     branches:
       - main
   workflow_dispatch:
-packs:
-  - codeql/javascript-queries
-paths:
-  - frontend
-paths-ignore:
-  - node_modules
-  - public
-  - dist
-  - build
-  - .next
-  - coverage
-# query-filters:
-#   - exclude:
-#       tag: security-low
-build-mode: manual
-build-command: "cd frontend && npm install && npm run build"
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up CodeQL
+        uses: github/codeql-action/setup-codeql@v2
+        
+      - name: Initialize CodeQL database
+        run: |
+          # Initialize the CodeQL database for JavaScript in the frontend directory
+          codeql database init --language=javascript --source-root=frontend
+
+      - name: Build the project
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/frontend"
+
+      # Reporting step
+      # - name: Upload CodeQL Results
+      #   uses: github/codeql-action/upload-results@v2
+      #   with:
+      #     category: "frontend"
+      #     result-dir: ./codeql-results
+
+      # Optional: Comment on the PR with the CodeQL results (example using a GitHub Action)
+      # - name: Comment with CodeQL results
+      #   uses: peter-evans/comment@v2
+      #   with:
+      #     body: |
+      #       ## CodeQL Analysis Results
+      #       - [Link to CodeQL results](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})  
+      #       The analysis has finished, and the results are available.
+      #   if: github.event_name == 'pull_request'
+
+      # Optional: Upload CodeQL SARIF Report to GitHub's Code Scanning
+      # - name: Upload SARIF to GitHub Code Scanning
+      #   uses: github/codeql-action/upload-sarif@v2
+      #   with:
+      #     sarif_file: ${{ github.workspace }}/frontend/codeql-results.sarif
