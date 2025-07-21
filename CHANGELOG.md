@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4] - 2025-07-20
+
+### Added
+
+- Theme picker (system, dark flat, light flat)
+- Button to jump to current month separator
+
+### Changed
+
+- TopNav icon order
+
 ## [0.0.3] - 2025-07-18
 
 ### Added
