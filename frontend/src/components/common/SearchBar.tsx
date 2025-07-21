@@ -66,7 +66,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
           placeholder={placeholder}
-          className="w-full bg-graphite-400/40 border border-graphite-300/30 rounded-lg py-2 pl-9 sm:pl-10 pr-8 sm:pr-10 text-xs sm:text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all duration-200"
+          className="w-full bg-gradient-to-b from-background-secondary to-background border border-graphite-300/30 rounded-lg py-2 pl-9 sm:pl-10 pr-8 sm:pr-10 text-xs sm:text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all duration-200"
           disabled={isSearching}
         />
         {showClearButton && value && (
