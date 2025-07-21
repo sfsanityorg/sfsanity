@@ -91,10 +91,11 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
               <React.Fragment key={event.id}>
                 {showSeparator && (
                   <div className="col-span-full text-center py-4 text-text-secondary font-medium text-sm border-t border-graphite-300/30 mt-4">
-                    {currentMonthYear}
+                    <div data-month-separator>{currentMonthYear}</div>
                   </div>
                 )}
                 <div className="card hover:translate-y-[-2px] sm:hover:translate-y-[-4px] group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6">
+                <div className="bg-graphite-400/70 hover:bg-graphite-400/80 rounded-lg hover:translate-y-[-2px] sm:hover:translate-y-[-4px] group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6">
               <div className="flex justify-between items-start mb-3 sm:mb-4">
                 <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent">
                   {event.location}
@@ -141,6 +142,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                 )}
               </div>
                 </div>
+                </div>
               </React.Fragment>
             );
           })}
@@ -156,10 +158,11 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
               <React.Fragment key={event.id}>
                 {showSeparator && (
                   <div className="text-center py-4 text-text-secondary font-medium text-sm border-t border-graphite-300/30 mt-4">
-                    {currentMonthYear}
+                    <div data-month-separator>{currentMonthYear}</div>
                   </div>
                 )}
                 <div className="card hover:translate-x-1 group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6">
+                <div className="bg-graphite-300/90 hover:bg-graphite-300/95 rounded-lg hover:translate-x-1 group transition-all duration-300 ease-out cursor-pointer border-l-2 border-accent p-4 sm:p-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
@@ -206,6 +209,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                   </div>
                 </div>
               </div>
+                </div>
                 </div>
               </React.Fragment>
             );

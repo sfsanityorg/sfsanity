@@ -19,8 +19,74 @@
     font-display: swap;
   }
 
+  :root {
+    /* Default theme (system dark) */
+    --color-background: #0A0A0A;
+    --color-background-secondary: #111111;
+    --color-background-tertiary: #1A1A1A;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: rgba(255, 255, 255, 0.7);
+    --color-text-tertiary: rgba(255, 255, 255, 0.45);
+    --color-text-subtle: rgba(255, 255, 255, 0.25);
+    --color-graphite-100: #333333;
+    --color-graphite-200: #252525;
+    --color-graphite-300: #1F1F1F;
+    --color-graphite-400: #181818;
+    --color-graphite-500: #141414;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      /* System light theme */
+      --color-background: #d3e2f1;
+      --color-background-secondary: #c8d7e6;
+      --color-background-tertiary: #bdcce1;
+      --color-text-primary: #141312;
+      --color-text-secondary: rgba(20, 19, 18, 0.7);
+      --color-text-tertiary: rgba(20, 19, 18, 0.45);
+      --color-text-subtle: rgba(20, 19, 18, 0.25);
+      --color-graphite-100: rgba(20, 19, 18, 0.2);
+      --color-graphite-200: rgba(20, 19, 18, 0.15);
+      --color-graphite-300: rgba(20, 19, 18, 0.1);
+      --color-graphite-400: rgba(20, 19, 18, 0.05);
+      --color-graphite-500: rgba(20, 19, 18, 0.03);
+    }
+  }
+
+  /* Theme overrides */
+  .theme-dark-flat {
+    --color-background: #131313;
+    --color-background-secondary: #151515;
+    --color-background-tertiary: #252423;
+    --color-text-primary: #d3e2f1;
+    --color-text-secondary: rgba(211, 226, 241, 0.9);
+    --color-text-tertiary: rgba(211, 226, 241, 0.45);
+    --color-text-subtle: rgba(211, 226, 241, 0.25);
+    --color-graphite-100: rgba(211, 226, 241, 0.2);
+    --color-graphite-200: rgba(211, 226, 241, 0.15);
+    --color-graphite-300: rgba(211, 226, 241, 0.1);
+    --color-graphite-400: rgba(211, 226, 241, 0.05);
+    --color-graphite-500: rgba(211, 226, 241, 0.03);
+  }
+
+  .theme-light-flat {
+    --color-background: #f5f4f3;
+    --color-background-secondary: #f7f6f5;
+    --color-background-tertiary: #f9f8f7;
+    --color-text-primary: #141312;
+    --color-text-secondary: rgba(20, 19, 18, 0.7);
+    --color-text-tertiary: rgba(20, 19, 18, 0.45);
+    --color-text-subtle: rgba(20, 19, 18, 0.25);
+    --color-graphite-100: rgba(20, 19, 18, 0.2);
+    --color-graphite-200: rgba(20, 19, 18, 0.15);
+    --color-graphite-300: rgba(20, 19, 18, 0.1);
+    --color-graphite-400: rgba(20, 19, 18, 0.05);
+    --color-graphite-500: rgba(20, 19, 18, 0.03);
+  }
+
   html {
-    @apply bg-background text-text-primary;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
     scroll-behavior: smooth;
   }
 
@@ -39,7 +105,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-background;
+    background-color: var(--color-background);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -53,7 +119,16 @@
 
 @layer components {
   .card {
-    @apply bg-background-secondary rounded-lg p-4 sm:p-6 transition-all duration-200;
+    background-color: var(--color-background-secondary);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: all 0.2s;
+  }
+
+  @media (min-width: 640px) {
+    .card {
+      padding: 1.5rem;
+    }
   }
   
   .btn {
@@ -118,6 +193,5 @@ mark {
 
 /* Command bar styles */
 .command-bar {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: var(--color-background-secondary);
 }

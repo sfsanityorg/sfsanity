@@ -7,6 +7,8 @@ import { Layout } from './components/layout/Layout';
 import { useSearch } from './hooks/useSearch';
 import { useEvents } from './hooks/useEvents';
 import { APP_CONFIG } from './config/app';
+import { loadFaviconsForTheme } from './config/favicons';
+import { useTheme } from './contexts/ThemeContext';
 import { Home } from './pages/Home';
 import { Events } from './pages/Events';
 // Import package.json to get version
@@ -49,15 +51,15 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
   const variants = {
     initial: {
       opacity: 0,
-      filter: 'blur(12px)',
+      filter: 'none',
     },
     animate: {
       opacity: 1,
-      filter: 'blur(0px)',
+      filter: 'none',
     },
     exit: {
       opacity: 0.25,
-      filter: 'blur(12px)',
+      filter: 'none',
     }
   };
 
@@ -80,9 +82,26 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
 
 function App() {
   const location = useLocation();
+  const { currentTheme } = useTheme();
   const [viewMode, setViewMode] = React.useState<'tiles' | 'list'>(APP_CONFIG.DEFAULT_EVENTS_VIEW_MODE);
   const [isInsightsModalOpen, setIsInsightsModalOpen] = React.useState(false);
   const [showSearch, setShowSearch] = React.useState(false);
+  
+  // Set document title and meta description from config
+  React.useEffect(() => {
+    document.title = APP_CONFIG.APP_TITLE;
+    
+    // Set meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', APP_CONFIG.APP_DESCRIPTION);
+    }
+  }, []);
+  
+  // Load favicons based on current theme
+  React.useEffect(() => {
+    loadFaviconsForTheme(currentTheme);
+  }, [currentTheme]);
   
   // Get events data for search
   const { events } = useEvents();
@@ -112,6 +131,31 @@ function App() {
     const eventsSection = document.getElementById('recent-events-section');
     if (eventsSection) {
       eventsSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  };
+  
+  /**
+   * Scrolls to the current month separator in the events list
+   */
+  const jumpToCurrentMonth = () => {
+    const currentDate = new Date();
+    const currentMonthYear = currentDate.toLocaleDateString('en-US', {
+      month: 'long',
+    });
+    
+    // Find all month separators and look for the current month
+    const monthSeparators = document.querySelectorAll('[data-month-separator]');
+    for (const separator of monthSeparators) {
+      if (separator.textContent?.includes(currentMonthYear)) {
+        separator.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+    }
+    
+    // If current month separator not found, scroll to top of events
+    const eventsSection = document.getElementById('recent-events-section');
+    if (eventsSection) {
+      eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
   
@@ -149,6 +193,7 @@ function App() {
     viewMode,
     onToggleViewMode: setViewMode,
     onJumpToBottom: jumpToEventsBottom,
+    onJumpToCurrentMonth: jumpToCurrentMonth,
     showEventsControls,
     showInsightsButton,
     onOpenInsights: openInsightsModal,
@@ -179,7 +224,7 @@ function App() {
           {/* Insights Modal */}
           {isInsightsModalOpen && (
             <div 
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
+              className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2 sm:p-4"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setIsInsightsModalOpen(false);
