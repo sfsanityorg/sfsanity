@@ -9,12 +9,6 @@ export const APP_CONFIG = {
   /** Target database table for events data */
   DATABASE_TARGET_TABLE: 'events_dev' as const,
   
-  /** Application Metadata */
-  /** Application title displayed in browser tab */
-  APP_TITLE: 'SFSanity | Stay sane and submerge into SF scene' as const,
-  /** Application description for meta tag */
-  APP_DESCRIPTION: 'Event aggregator and filter for San Francisco' as const,
-  
   /** Event ordering configuration */
   /** Order events by ID in ascending order (lowest/oldest first) */
   EVENTS_ORDER_BY_ID_ASC: true,

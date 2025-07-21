@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Command, Search, Grid3X3, List, ArrowDown, Lightbulb, X, Github, Menu, Settings, Calendar, Palette } from 'lucide-react';
+import { Command, Search, Grid3X3, List, ArrowDown, Lightbulb, X, Github, Menu, Hash } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { useTheme } from '../../contexts/ThemeContext';
 import { ConnectionStatus } from '../common/ConnectionStatus';
 import { SearchBar } from '../common/SearchBar';
 import { APP_CONFIG } from '../../config/app';
@@ -13,8 +12,6 @@ interface TopNavProps {
   onToggleViewMode?: (mode: 'tiles' | 'list') => void;
   /** Callback to jump to bottom of events */
   onJumpToBottom?: () => void;
-  /** Callback to jump to current month */
-  onJumpToCurrentMonth?: () => void;
   /** Whether to show the events controls */
   showEventsControls?: boolean;
   /** Callback to open insights modal */
@@ -39,7 +36,6 @@ export default function TopNav({
   viewMode = 'tiles', 
   onToggleViewMode, 
   onJumpToBottom,
-  onJumpToCurrentMonth,
   showEventsControls = false,
   onOpenInsights,
   showInsightsButton = false,
@@ -52,10 +48,7 @@ export default function TopNav({
 }: TopNavProps) {
   const [setIsExpanded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
-  const themeDropdownRef = useRef<HTMLDivElement>(null);
-  const { theme, setTheme } = useTheme();
 
   /**
    * Toggles the expanded state of the navigation bar
@@ -100,29 +93,23 @@ export default function TopNav({
           onToggleSearch) {
         onToggleSearch();
       }
-      
-      if (isThemeDropdownOpen && 
-          themeDropdownRef.current && 
-          !themeDropdownRef.current.contains(event.target as Node)) {
-        setIsThemeDropdownOpen(false);
-      }
     };
 
-    if (showSearch || isThemeDropdownOpen) {
+    if (showSearch) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showSearch, onToggleSearch, isThemeDropdownOpen]);
+  }, [showSearch, onToggleSearch]);
 
   return (
     <div
       ref={searchContainerRef}
       className={`fixed top-2 sm:top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-2 sm:px-4 transition-all duration-300
         bg-graphite-400/80 border border-graphite-300/30 backdrop-blur-md rounded-xl
-        ${showSearch ? 'min-h-32 sm:min-h-28' : 'h-14'}`}
+        ${showSearch ? 'h-32 sm:h-28' : 'h-14'}`}
     >
       <div className={`h-full flex ${showSearch ? 'flex-col' : 'items-center'} justify-between`}>
         {/* Main navigation row */}
@@ -160,14 +147,14 @@ export default function TopNav({
                 {showSearch ? <X size={16} className="sm:w-[18px] sm:h-[18px]" /> : <Search size={16} className="sm:w-[18px] sm:h-[18px]" />}
               </button>
               
-              {!showSearch && onJumpToCurrentMonth && (
+              {!showSearch && onToggleViewMode && (
                 <div className="hidden sm:block">
                   <button
-                    onClick={onJumpToCurrentMonth}
-                    className="flex items-center px-3 py-1.5 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
-                    title="Jump to current month"
+                    onClick={handleToggleViewMode}
+                    className="flex items-center px-3 py-1.5 bg-graphite-400/30 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
+                    title={`Switch to ${viewMode === 'tiles' ? 'list' : 'tiles'} view`}
                   >
-                    <Calendar size={16} />
+                    {viewMode === 'tiles' ? <List size={16} /> : <Grid3X3 size={16} />}
                   </button>
                 </div>
               )}
@@ -176,7 +163,7 @@ export default function TopNav({
                 <div className="hidden sm:block">
                   <button
                     onClick={onJumpToBottom}
-                    className="flex items-center px-3 py-1.5 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
+                    className="flex items-center px-3 py-1.5 bg-graphite-400/30 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
                     title="Jump to bottom of events"
                   >
                     <ArrowDown size={16} />
@@ -185,78 +172,6 @@ export default function TopNav({
               )}
             </>
           )}
-              
-              {!showSearch && onToggleViewMode && (
-                <div className="hidden sm:block">
-                  <button
-                    onClick={handleToggleViewMode}
-                    className="flex items-center px-3 py-1.5 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
-                    title={`Switch to ${viewMode === 'tiles' ? 'list' : 'tiles'} view`}
-                  >
-                    {viewMode === 'tiles' ? <List size={16} /> : <Grid3X3 size={16} />}
-                  </button>
-                </div>
-              )}
-          
-          {!showSearch && (
-            /* settings, theme selector */
-            <div className="hidden sm:block relative" ref={themeDropdownRef}>
-              <button 
-                onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
-                className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-graphite-300/40 text-text-secondary hover:text-text-primary transition-all duration-200"
-                title="Change theme"
-              >
-                <Palette size={16} />
-              </button>
-              
-              {isThemeDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-background-secondary border border-graphite-300/30 rounded-lg shadow-lg z-50">
-                  <div className="p-2 space-y-1">
-                    <button
-                      onClick={() => {
-                        setTheme('system');
-                        setIsThemeDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                        theme === 'system' 
-                          ? 'bg-accent text-white' 
-                          : 'text-text-secondary hover:text-text-primary hover:bg-graphite-300/40'
-                      }`}
-                    >
-                      System
-                    </button>
-                    <button
-                      onClick={() => {
-                        setTheme('dark-flat');
-                        setIsThemeDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                        theme === 'dark-flat' 
-                          ? 'bg-accent text-white' 
-                          : 'text-text-secondary hover:text-text-primary hover:bg-graphite-300/40'
-                      }`}
-                    >
-                      Dark Flat
-                    </button>
-                    <button
-                      onClick={() => {
-                        setTheme('light-flat');
-                        setIsThemeDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                        theme === 'light-flat' 
-                          ? 'bg-accent text-white' 
-                          : 'text-text-secondary hover:text-text-primary hover:bg-graphite-300/40'
-                      }`}
-                    >
-                      Light Flat
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
           {!showSearch && showInsightsButton && onOpenInsights && (
             <div className="hidden sm:block">
               <button 
@@ -268,7 +183,6 @@ export default function TopNav({
               </button>
             </div>
           )}
-          
           {!showSearch && (
             <div className="hidden sm:block">
               <a
@@ -288,7 +202,7 @@ export default function TopNav({
         
         {/* Search row */}
         {showSearch && (
-          <div className="w-full px-4 sm:px-6 pb-5 space-y-3">
+          <div className="w-full px-1 sm:px-2 pb-3 space-y-3">
             <SearchBar
               value={searchQuery}
               onChange={onSearchChange || (() => {})}
@@ -298,7 +212,7 @@ export default function TopNav({
             />
             
             {/* Search Tags */}
-            <div className="flex flex-wrap gap-1.5 sm:gap-2 px-2 sm:px-3">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {APP_CONFIG.SEARCH_TAGS.map((tag) => (
                 <button
                   key={tag}
@@ -316,11 +230,11 @@ export default function TopNav({
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 sm:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           <div 
-            className="absolute top-16 left-2 right-2 bg-background-secondary border border-graphite-300/30 rounded-xl p-4"
+            className="absolute top-16 left-2 right-2 bg-graphite-400/95 border border-graphite-300/30 backdrop-blur-md rounded-xl p-4"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="space-y-3">
@@ -330,23 +244,10 @@ export default function TopNav({
                     handleToggleViewMode();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
+                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
                 >
                   <span>Switch to {viewMode === 'tiles' ? 'list' : 'tiles'} view</span>
                   {viewMode === 'tiles' ? <List size={16} /> : <Grid3X3 size={16} />}
-                </button>
-              )}
-              
-              {showEventsControls && onJumpToCurrentMonth && (
-                <button
-                  onClick={() => {
-                    onJumpToCurrentMonth();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
-                >
-                  <span>Jump to current month</span>
-                  <Calendar size={16} />
                 </button>
               )}
               
@@ -356,7 +257,7 @@ export default function TopNav({
                     onJumpToBottom();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
+                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
                 >
                   <span>Jump to bottom</span>
                   <ArrowDown size={16} />
@@ -369,75 +270,18 @@ export default function TopNav({
                     onOpenInsights();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
+                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
                 >
                   <span>About</span>
                   <Lightbulb size={16} />
                 </button>
               )}
               
-              <div className="space-y-2">
-                <button 
-                  onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
-                >
-                  <span>Change Theme</span>
-                  <Palette size={16} />
-                </button>
-                
-                {isThemeDropdownOpen && (
-                  <div className="ml-4 space-y-1">
-                    <button
-                      onClick={() => {
-                        setTheme('system');
-                        setIsThemeDropdownOpen(false);
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                        theme === 'system' 
-                          ? 'bg-accent text-white' 
-                          : 'text-text-secondary hover:text-text-primary hover:bg-graphite-300/40'
-                      }`}
-                    >
-                      System
-                    </button>
-                    <button
-                      onClick={() => {
-                        setTheme('dark-flat');
-                        setIsThemeDropdownOpen(false);
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                        theme === 'dark-flat' 
-                          ? 'bg-accent text-white' 
-                          : 'text-text-secondary hover:text-text-primary hover:bg-graphite-300/40'
-                      }`}
-                    >
-                      Dark Flat
-                    </button>
-                    <button
-                      onClick={() => {
-                        setTheme('light-flat');
-                        setIsThemeDropdownOpen(false);
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                        theme === 'light-flat' 
-                          ? 'bg-accent text-white' 
-                          : 'text-text-secondary hover:text-text-primary hover:bg-graphite-300/40'
-                      }`}
-                    >
-                      Light Flat
-                    </button>
-                  </div>
-                )}
-              </div>
-              
               <a
                 href={APP_CONFIG.GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
+                className="w-full flex items-center justify-between px-4 py-3 bg-graphite-400/30 hover:bg-graphite-300/40 border border-graphite-300/30 rounded-lg text-text-secondary hover:text-text-primary transition-all duration-200"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <span>GitHub</span>

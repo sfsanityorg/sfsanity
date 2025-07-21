@@ -5,16 +5,16 @@ export default {
     extend: {
       colors: {
         background: {
-          DEFAULT: 'var(--color-background)',
-          secondary: 'var(--color-background-secondary)',
-          tertiary: 'var(--color-background-tertiary)',
+          DEFAULT: '#0A0A0A',
+          secondary: '#111111',
+          tertiary: '#1A1A1A',
         },
         graphite: {
-          100: 'var(--color-graphite-100, #333333)',
-          200: 'var(--color-graphite-200, #252525)',
-          300: 'var(--color-graphite-300, #1F1F1F)',
-          400: 'var(--color-graphite-400, #181818)',
-          500: 'var(--color-graphite-500, #141414)',
+          100: '#333333',
+          200: '#252525',
+          300: '#1F1F1F',
+          400: '#181818',
+          500: '#141414',
         },
         accent: {
           DEFAULT: '#0066FF',
@@ -22,10 +22,10 @@ export default {
           subtle: 'rgba(0, 102, 255, 0.15)',
         },
         text: {
-          primary: 'var(--color-text-primary)',
-          secondary: 'var(--color-text-secondary)',
-          tertiary: 'var(--color-text-tertiary)',
-          subtle: 'var(--color-text-subtle)',
+          primary: '#FFFFFF',
+          secondary: 'rgba(255, 255, 255, 0.7)',
+          tertiary: 'rgba(255, 255, 255, 0.45)',
+          subtle: 'rgba(255, 255, 255, 0.25)',
         }
       },
       fontFamily: {
