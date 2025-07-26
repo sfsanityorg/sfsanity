@@ -1,0 +1,32 @@
+{
+  "project_name": "sfsanity",
+  "main_language": "TypeScript",
+  "framework": "React",
+  "style_guide": "TailwindCSS",
+  "agent_instructions_file": "AGENTS.md",
+  "actions": {
+    "permitted_actions": [
+      "read_file",
+      "write_file",
+      "replace",
+      "list_directory",
+      "glob",
+      "search_file_content",
+      "run_shell_command:npm install",
+      "run_shell_command:npm run dev",
+      "run_shell_command:npm run build",
+      "run_shell_command:npm run lint",
+      "run_shell_command:npm test",
+      "run_shell_command:git status",
+      "run_shell_command:git diff"
+    ],
+    "denied_actions": [
+      "run_shell_command:git add",
+      "run_shell_command:git commit",
+      "run_shell_command:git push",
+      "run_shell_command:git push --force",
+      "run_shell_command:git reset --hard",
+      "run_shell_command:rm -rf"
+    ]
+  }
+}
